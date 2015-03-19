@@ -7,7 +7,7 @@
  *
  * @package     Kirby CMS
  * @subpackage  Comments\Tests
- * @since       2.x-0.1
+ * @since       2.x-1.0
  *
  * @author      Daniel Weidner <hallo@danielweidner.de>
  * @link        http://github.com/dweidner/kirby-comments/

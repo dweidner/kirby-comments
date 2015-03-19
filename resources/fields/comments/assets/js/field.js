@@ -38,7 +38,7 @@
      *
      * @type  {string}
      */
-    version: '2.x-0.1-alpha',
+    version: '2.x-1.0-beta',
 
     /**
      * Initialize field plugin.

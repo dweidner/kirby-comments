@@ -8,7 +8,7 @@
  *
  * @package     Kirby CMS
  * @subpackage  Comments
- * @since       2.x-0.1
+ * @since       2.x-1.0
  * @uses        Comments\PluginAbstract class
  *
  * @author      Daniel Weidner <hallo@danielweidner.de>

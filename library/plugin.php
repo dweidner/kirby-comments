@@ -26,7 +26,7 @@ use Comments\Database\ModelAbstract as Model;
  *
  * @package     Kirby CMS
  * @subpackage  Comments
- * @since       2.x-0.1
+ * @since       2.x-1.0
  *
  * @author      Daniel Weidner <hallo@danielweidner.de>
  * @link        http://github.com/dweidner/kirby-comments/
@@ -92,7 +92,7 @@ class CommentPlugin {
     $this->site    = $kirby->site();
 
     $this->name    = 'comments';
-    $this->version = '2.x-0.1-alpha';
+    $this->version = '2.x-1.0-beta';
 
     $this->load();
     $this->boot();
