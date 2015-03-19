@@ -1,0 +1,7 @@
+<phpunit bootstrap="tests/library/bootstrap.php" colors="true">
+  <testsuites>
+    <testsuite name="Kirby Comments Test Suite">
+      <directory phpVersion="5.3">tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

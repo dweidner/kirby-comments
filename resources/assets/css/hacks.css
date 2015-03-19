@@ -1,0 +1,30 @@
+html,
+body,
+.main {
+  height: 100%;
+}
+
+.field-with-info,
+.message-list .message {
+  margin-bottom: 1.5em;
+}
+
+.sidebar-list .marginalia {
+  position: static;
+  right: auto;
+  font-size: .875em;
+}
+
+.nav > li > span {
+  display: block;
+}
+
+
+.sidebar-list > li > span {
+  padding: 0.25em 0px;
+}
+
+.buttons > .btn-submit +.btn-submit {
+  margin-right: .5em;
+}
+

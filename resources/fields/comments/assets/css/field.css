@@ -1,0 +1,12 @@
+
+.comment-form .field-grid-item {
+  padding-left: 0;
+}
+
+@media screen and (min-width: 50em) {
+
+  .modal-content-wide {
+    width: 32em;
+  }
+
+}
