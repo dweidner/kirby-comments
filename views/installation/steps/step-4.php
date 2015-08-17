@@ -54,6 +54,7 @@
 
   <div class="buttons cf">
     <a class="btn btn-rounded btn-cancel" href="<?php echo $wizard->url($index - 1); ?>">Back</a>
+    <a class="btn btn-rounded btn-submit" href="<?php echo $wizard->url($index + 1); ?>">Skip</a>
     <input class="btn btn-rounded btn-submit" value="Continue" type="submit">
   </div>
 

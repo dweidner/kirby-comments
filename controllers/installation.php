@@ -34,75 +34,6 @@ use Comments\Import\CSVImporter;
 class InstallationController extends Controller {
 
   /**
-   * Plugin path finder.
-   *
-   * @var  Comments\Finder
-   */
-  protected $finder;
-
-  /**
-   * Plugin configuration store.
-   *
-   * @var  Comments\Config
-   */
-  protected $config;
-
-  /**
-   * Database connection.
-   *
-   * @var  Database
-   */
-  protected $db;
-
-  /**
-   * Get or set the plugin’s path finder.
-   *
-   * @param   Finder|null  $finder
-   * @return  Finder
-   */
-  public function finder(Finder $finder = null) {
-
-    if (!is_null($finder)) {
-      $this->finder = $finder;
-    }
-
-    return $this->finder;
-
-  }
-
-  /**
-   * Get or set the plugin’s configuration store.
-   *
-   * @param   Config|null  $config
-   * @return  Config
-   */
-  public function config(Config $config = null) {
-
-    if (!is_null($config)) {
-      $this->config = $config;
-    }
-
-    return $this->config;
-
-  }
-
-  /**
-   * Get or set the database connection applied by the plugin.
-   *
-   * @param   Database|null  $db
-   * @return  Database
-   */
-  public function db(Database $db = null) {
-
-    if (!is_null($db)) {
-      $this->db = $db;
-    }
-
-    return $this->db;
-
-  }
-
-  /**
    * Show the installation page.
    *
    * @param   integer   $step  Progress of the installation.
@@ -113,7 +44,7 @@ class InstallationController extends Controller {
     // Cache frequently used variables
     $user   = user::current();
     $access = $user && $user->isAdmin();
-    $root   = $this->finder->views() . DS . 'installation';
+    $root   = $this->hub()->finder()->views() . DS . 'installation';
     $wizard = new Wizard($root);
 
     // Force login before continuing with installation wizard
@@ -138,8 +69,8 @@ class InstallationController extends Controller {
     ));
 
     // Step 2 (Required)
-    $default = $this->config->get('database.default');
-    $connections = $this->config->get('database.connections');
+    $default = $this->hub()->config()->get('database.default');
+    $connections = $this->hub()->config()->get('database.connections');
 
     $wizard->add(array(
       'title'      => 'Step 2',
@@ -239,7 +170,7 @@ class InstallationController extends Controller {
    */
   public function connect($view, $form) {
 
-    if (is_null($this->db->connection())) {
+    if (is_null($this->hub()->db()->connection())) {
       $view->errors(array('database' => 'Could not connect to the given database'));
       return false;
     }
@@ -259,12 +190,13 @@ class InstallationController extends Controller {
   public function tables($view, $form) {
 
     $table = c::get('db.prefix', '') . 'comments';
+    $db = $this->hub()->db();
 
     // Drop an existing table
-    $this->db()->dropTable($table);
+    $db->dropTable($table);
 
     // Create a new database table with the required columns
-    $created = $this->db()->createTable($table, array(
+    $created = $db->createTable($table, array(
       'id'           => array( 'type' => 'id' ),
       'page_uri'     => array( 'type' => 'varchar', 'null' => false, 'key' => 'index' ),
       'status'       => array( 'type' => 'int', 'null' => false, 'default' => 0 ),
@@ -303,7 +235,7 @@ class InstallationController extends Controller {
   public function import($view, $form) {
 
     // Try to upload the file to the cache
-    $file = $this->finder->cache() . DS . '{safeName}.{safeExtension}';
+    $file = $this->hub()->finder()->cache() . DS . '{safeName}.{safeExtension}';
     $upload = new Upload($file);
 
     // Stop import process if error occured
@@ -317,7 +249,7 @@ class InstallationController extends Controller {
     $cols = array_map('trim', $cols);
 
     // Start import process from file
-    $import = new CSVImporter($this->db, 'comments', array(
+    $import = new CSVImporter($this->hub()->db(), 'comments', array(
       'delimiter' => $form['delimiter'],
       'enclosure' => $form['enclosure'],
       'head'      => $cols,
@@ -342,21 +274,23 @@ class InstallationController extends Controller {
    */
   public function installField($view, $form) {
 
-    $target = kirby()->roots()->fields() . DS . 'comments';
-    $path = $this->finder()->resources() . DS . 'fields' . DS . 'comments';
-    $folder = new Folder($path);
+    $path = kirby()->roots()->fields() . DS . 'comments';
+    $target = new Folder($path);
 
-    if ($folder->exists()) {
+    if ($target->exists()) {
       $view->errors(array('field' => 'A field with the same name already exists.'));
       return false;
     }
 
-    if (!$folder->copy($target)) {
-      $view->errors(array('field' => 'Could not copy custom field to target directory.'));
+    $path = $this->hub()->finder()->resources() . DS . 'fields' . DS . 'comments';
+    $source = new Folder($path);
+
+    if (!$source->copy($target->root())) {
+      $view->errors(array('field' => 'Could not copy custom field to target directory. Is the `site` folder writeable?'));
       return false;
     }
 
-    return true;
+    return $this->redirect('home');
 
   }
 
@@ -368,7 +302,7 @@ class InstallationController extends Controller {
    */
   public function assets($file) {
 
-    $root = $this->finder->assets();
+    $root = $this->hub()->finder()->assets();
     $path = $root . DS . $file;
 
     if ('css/styles.css' === $file) {
@@ -390,7 +324,7 @@ class InstallationController extends Controller {
    */
   public function styles() {
 
-    $file = $this->finder->cache() . DS . 'wizard.css';
+    $file = $this->hub()->finder()->cache() . DS . 'wizard.css';
 
     if (!file_exists($file)) {
       $css = $this->combine(array('css/font-awesome.css', 'css/panel.css', 'css/hacks.css' ));
@@ -409,7 +343,7 @@ class InstallationController extends Controller {
    */
   public function scripts() {
 
-    $file = $this->finder->cache() . DS . 'wizard.js';
+    $file = $this->hub()->finder()->cache() . DS . 'wizard.js';
 
     if (!file_exists($file)) {
       $js = $this->combine(array('js/jquery.js', 'js/jquery.breadcrumb.js', 'js/jquery.sidebar.js' ));
@@ -430,7 +364,7 @@ class InstallationController extends Controller {
    */
   protected function combine($files) {
 
-    $root   = $this->finder->assets();
+    $root   = $this->hub()->finder()->assets();
     $output = '';
 
     foreach ($files as $file) {
