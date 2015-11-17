@@ -78,7 +78,7 @@ class Form extends Brick {
     // Set default action endpoint
     $hash = page()->hash();
     $this->method('post');
-    $this->action("/api/pages/${hash}/comments/create");
+    $this->action( url("/api/pages/${hash}/comments/create") );
 
     // Provide default fields if none are given
     $this->fields = array();
