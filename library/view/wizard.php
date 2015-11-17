@@ -86,7 +86,7 @@ class Wizard extends View {
    */
   public function uriFromPath() {
 
-    $path = url::path();
+    $path = kirby::instance()->path();
 
     // Check if the current path includes the progress indicator
     if (preg_match('#/\d$#', $path)) {
