@@ -6,6 +6,7 @@ use F;
 use R;
 use Url;
 use Error;
+use Kirby;
 use Redirect;
 
 use Comments\Support\Messages;
