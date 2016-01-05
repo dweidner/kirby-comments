@@ -46,7 +46,7 @@ Once you have finished the installation process you can use the plugin in your t
 
 ```php
 // Excerpt of site/templates/article.php
-<article role="article>
+<article role="article">
 	<h1><?php echo $page->title()->html(); ?></h1>
 	...
 	<footer>
