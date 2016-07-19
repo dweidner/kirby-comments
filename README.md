@@ -1,4 +1,8 @@
-# Kirby Comments (beta)
+# Kirby Comments (DISCONTINUED)
+
+**NOTE:** I will no longer work on this plugin and instead contribute to available solutions which have been implemented by other plugin authors in the meantime (e.g. [Kirby Comments](https://github.com/Addpixel/KirbyComments) by @Addpixel). I learned a lot during the development of this plugin (Akismet integration, Spam protection methods, extending the Kirby CMS) and hope some of the implementation details might be useful for someone else. 
+
+---
 
 [Kirby](https://github.com/getkirby/kirby) is a wonderful Content Management System which is entirely file-based. [Write](http://getkirby.com/docs/content/text) a blog post in your favourite Markdown editor, [add](http://getkirby.com/docs/content/adding-content#fields) some field data and [save](http://getkirby.com/docs/content/adding-content#a-folder-for-every-page) it to the file system. Done!
 
@@ -74,4 +78,4 @@ Well, a totaly valid question. First of all using the database capabilities ship
 I have been thinking of alternative ways, like a JSON-formatted file which combining comments of a certain page into a single page (see @vladstudio’s [solution](https://github.com/vladstudio/vladstudio-kirby-comments)), but always returned to a database driven approach as it was way easier to implement. If you have a good idea about how to implement a clean solution I will be very happy to add this as a further feature to the plugin.
 
 # License
-[MIT License](http://www.opensource.org/licenses/mit-license.php), 2015 [Daniel Weidner](http://danielweidner.de)
+[MIT License](http://www.opensource.org/licenses/mit-license.php), 2016 [Daniel Weidner](http://danielweidner.de)
